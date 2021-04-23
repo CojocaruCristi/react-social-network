@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     color: "#F5F5F5"
   },
   App: {
-    marginTop: 68
+     marginTop: 68
   },
 })
 
@@ -36,7 +36,7 @@ const theme = createMuiTheme({
   }
 })
 
-function App() {
+function App(props) {
 
   const classes = useStyles();
 
@@ -46,15 +46,19 @@ function App() {
         <div className={classes.App}>
           <Header />
           <Container className={classes.AppContent} maxWidth={"lg"} >
+
             <Route exact path={'/'} >
-              <div>main</div>
+              <div>Home</div>
             </Route>
+
             <Route  path={'/profile'} >
-              <Profile/>
+              <Profile />
             </Route>
+
             <Route  path={'/dialogs'} >
-              <Dialogs/>
+              <Dialogs />
             </Route>
+
           </Container>
         </div>
       </MuiThemeProvider>

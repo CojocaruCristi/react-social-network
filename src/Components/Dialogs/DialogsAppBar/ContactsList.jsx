@@ -4,7 +4,7 @@ import {Avatar, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/c
 
 const Contact = (props) => {
     return (
-        <Link to={`/dialogs/${props.name}`}>
+        <Link to={`/dialogs/${props.id}`}>
             <ListItem button>
                 <ListItemIcon> <Avatar alt={props.name} src="/ava"/> </ListItemIcon>
                 <ListItemText>{props.name}</ListItemText>
@@ -14,15 +14,19 @@ const Contact = (props) => {
 }
 
 
-const ContactsList = () => {
+
+
+const ContactsList = (props) => {
+
+    const contacts = props.map(el => {
+        return(
+            <Contact name={el.name} id={el.id} />
+        )
+    })
+
     return (
         <List button key={"text"}>
-            <Contact name={"Valera"}/>
-            <Contact name={"Ghena"}/>
-            <Contact name={"Mike"}/>
-            <Contact name={"Cristina"}/>
-            <Contact name={"Pavel"}/>
-            <Contact name={"Vadim"}/>
+            {contacts}
         </List>
     )
 }

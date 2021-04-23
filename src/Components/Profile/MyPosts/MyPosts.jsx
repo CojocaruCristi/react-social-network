@@ -4,33 +4,46 @@ import Post from "./Post/Post";
 import {PostAdd} from "@material-ui/icons";
 
 
-const arrString = ["Hey, why nobody loves me?", "Be who you were created to be, and you will set the world on fire.", "I am learning react + redux + MUI"];
-
-
-
-const posts = arrString.map((el) => {
-    return (
-        <Post com={el} />
-    )
-})
 
 
 const MyPosts = (props) => {
-    return(
+
+    const posts = props.posts.map((post) => {
+        return (
+            <Post profileInfo={props.profileInfo} com={post.post} id={post.id}/>
+        )
+    })
+
+    const postInputRef = React.createRef();
+
+    const onAddPost = () => {
+        props.addPost();
+    }
+
+    const OnChangePostField = (c) => {
+        props.changePostField(c);
+
+    }
+
+
+
+    return (
         <div>
-            <Grid container >
-                <Grid item xs={12} >
+            <Grid container>
+                <Grid item xs={12}>
                     <Typography variant={"h4"}>My Posts</Typography>
 
-                    <TextField rows={6} margin={"normal"} fullWidth={true} multiline={true}  variant={"outlined"} label={"Write a post"} style={{color: "inherit"}}/>
+                    <TextField onChange={OnChangePostField} inputRef={postInputRef} rows={6} margin={"normal"} fullWidth={true} multiline={true} variant={"outlined"}
+                               label={"Write a post"} style={{color: "inherit"}} value={props.postField}/>
 
                     <Box display={"flex"} justifyContent={"flex-end"}>
-                        <Button startIcon={<PostAdd/>} variant={"contained"} size={"large"} color={"primary"}>Post</Button>
+                        <Button onClick={onAddPost} startIcon={<PostAdd/>} variant={"contained"} size={"large"}
+                                color={"primary"}>Post</Button>
                     </Box>
                 </Grid>
             </Grid>
 
-            <Grid container direction={"column"} >
+            <Grid container direction={"column"}>
                 {posts}
             </Grid>
         </div>
