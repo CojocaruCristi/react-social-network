@@ -34,7 +34,7 @@ const MyPosts = (props) => {
                     <Typography variant={"h4"}>My Posts</Typography>
 
                     <TextField onChange={OnChangePostField} inputRef={postInputRef} rows={6} margin={"normal"} fullWidth={true} multiline={true} variant={"outlined"}
-                               label={"Write a post"} style={{color: "inherit"}} value={props.postField}/>
+                               label={"Write a post"}  style={{color: "inherit"}} value={props.postField}/>
 
                     <Box display={"flex"} justifyContent={"flex-end"}>
                         <Button onClick={onAddPost} startIcon={<PostAdd/>} variant={"contained"} size={"large"}

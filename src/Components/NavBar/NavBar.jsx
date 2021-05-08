@@ -5,9 +5,13 @@ import PersonIcon from '@material-ui/icons/Person';
 import MessageIcon from '@material-ui/icons/Message';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import SettingsIcon from '@material-ui/icons/Settings';
+import GroupIcon from '@material-ui/icons/Group';
 
 const useStyles = makeStyles({
+    listItem: {
+        color: "#3C3C3C",
 
+    }
 })
 
 
@@ -16,30 +20,37 @@ const NavBar = () => {
     return (
         <List button key={"text"}>
             <Link to={'/profile'}>
-                <ListItem button>
+                <ListItem button >
                     <ListItemIcon> <PersonIcon/> </ListItemIcon>
-                    <ListItemText>PROFILE</ListItemText>
+                    <ListItemText className={classes.listItem}>PROFILE</ListItemText>
                 </ListItem>
             </Link>
             <Link to={'/dialogs'}>
                 <ListItem button>
                     <ListItemIcon> <MessageIcon/> </ListItemIcon>
-                    <ListItemText>DIALOGS</ListItemText>
+                    <ListItemText className={classes.listItem}>DIALOGS</ListItemText>
+                </ListItem>
+            </Link>
+            <Link to={'/users'}>
+                <ListItem button>
+                    <ListItemIcon> <GroupIcon/> </ListItemIcon>
+                    <ListItemText className={classes.listItem}>USERS</ListItemText>
                 </ListItem>
             </Link>
             <Link to={'/music'}>
                 <ListItem button>
                     <ListItemIcon> <MusicNoteIcon/> </ListItemIcon>
-                    <ListItemText>MUSIC</ListItemText>
+                    <ListItemText className={classes.listItem}>MUSIC</ListItemText>
                 </ListItem>
             </Link>
             <Divider/>
             <Link to={'/settings'}>
                 <ListItem button>
                     <ListItemIcon> <SettingsIcon/> </ListItemIcon>
-                    <ListItemText>SETTINGS</ListItemText>
+                    <ListItemText className={classes.listItem}>SETTINGS</ListItemText>
                 </ListItem>
             </Link>
+
         </List>
     )
 }

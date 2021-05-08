@@ -1,13 +1,20 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Avatar, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Avatar, List, ListItem, ListItemIcon, ListItemText, makeStyles} from "@material-ui/core";
 
+const useStyles = makeStyles({
+    listItem: {
+        color: "#3C3C3C",
+
+    }
+})
 const Contact = (props) => {
+    const classes = useStyles();
     return (
         <Link to={`/dialogs/${props.id}`}>
             <ListItem button>
                 <ListItemIcon> <Avatar alt={props.name} src="/ava"/> </ListItemIcon>
-                <ListItemText>{props.name}</ListItemText>
+                <ListItemText className={classes.listItem} >{props.name}</ListItemText>
             </ListItem>
         </Link>
     )
