@@ -24,7 +24,7 @@ const initialState = {
 const profileReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case ADD_POST: {;
+        case ADD_POST: {
 
             // Checking if the post field is empty, then posting is canceled
             if (!state.postsData.postField.replace(/\s/g, '').length) {

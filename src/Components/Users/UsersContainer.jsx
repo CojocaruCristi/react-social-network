@@ -1,13 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
-import {followActionCreator, setUsersActionCreator, unFollowActionCreator} from "../../Redux/Reduсers/users-reducer";
+import {followActionCreator, setUsersActionCreator, unFollowActionCreator, changeCurrentPageAC, loadingUsersAC} from "../../Redux/Reduсers/users-reducer";
 
 
 
 const mapStateToProps = (state) => {
     return {
-        users: state.usersData.users
+        users: state.usersData.users,
+        currentPage: state.usersData.currentPage,
+        totalPages: state.usersData.totalPages,
+        items: state.usersData.items,
+        loadingUsers: state.usersData.loadingUsers,
     }
 }
 
@@ -19,8 +23,14 @@ const mapDispatchToProps = (dispatch) => {
         onUserUnFollowP: (userId) => {
             dispatch(unFollowActionCreator(userId));
         },
-        onSetUsers: (users) => {
-            dispatch(setUsersActionCreator());
+        onSetUsers: (data) => {
+            dispatch(setUsersActionCreator(data));
+        },
+        changeCurrentPage: (page) => {
+            dispatch(changeCurrentPageAC(page))
+        },
+        setLoadingUsers: (isLoading) => {
+            dispatch(loadingUsersAC(isLoading))
         }
     }
 }

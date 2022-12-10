@@ -12,7 +12,7 @@ const MyPosts = (props) => {
         return (
             <Post profileInfo={props.profileInfo} com={post.post} id={post.id}/>
         )
-    })
+    }).reverse();
 
     const postInputRef = React.createRef();
 

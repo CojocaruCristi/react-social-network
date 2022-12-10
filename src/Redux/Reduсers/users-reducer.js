@@ -1,15 +1,15 @@
 const FOLLOW = "FOLLOW";
 const UN_FOLLOW = "UN_FOLLOW";
 const SET_USERS = "SET_USERS";
-
-
+const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE';
+const SET_LOADING_USERS = 'SET_LOADING_USERS';
 const initialState = {
-    users: [
-        { id: 0 , fullName: "Max", status: "Be the type of person you want to meet", followed: true, photoURL: null, location: {country: "Moldova", city: "Chisinau"}},
-        { id: 1 , fullName: "Sergiu", status: "Or you’re striving toward", followed: false, photoURL: null, location: {country: "Ukraine", city: "Kiev"}},
-        { id: 2 , fullName: "Sasha", status: "Whatever it is, good for you!", followed: false, photoURL: null, location: {country: "Belarus", city: "Minsk"}},
-        { id: 3 , fullName: "Cristi", status: "If it makes you feel good every time you read it, you have a winner.", followed: true, photoURL: null, location: {country: "Russia", city: "Moscow"}}
-    ]
+    users: [],
+    // page: 1,
+    items: 20,
+    totalPages: 0,
+    currentPage: 1,
+    loadingUsers: false,
 }
 
 
@@ -39,9 +39,26 @@ const usersReducer = (state = initialState, action) => {
             }
         }
         case SET_USERS: {
+            console.log(action)
             return {
                 ...state,
-                users: [...state.users, ...action.users]
+                // users: [...state.users, ...action.users]
+                users: action.data.items,
+                totalPages: Math.ceil(action.data.totalCount / state.items),
+                loadingUsers: false,
+            }
+        }
+        case CHANGE_CURRENT_PAGE: {
+            return {
+                ...state,
+                currentPage: action.page
+            }
+        }
+
+        case SET_LOADING_USERS: {
+            return {
+                ...state,
+                loadingUsers: action.isLoading,
             }
         }
         default: {
@@ -65,10 +82,24 @@ export const unFollowActionCreator = (userId) => {
     }
 }
 
-export const setUsersActionCreator = (users) => {
+export const setUsersActionCreator = (data) => {
     return {
         type: SET_USERS,
-        users
+        data
+    }
+}
+
+export const changeCurrentPageAC = (page) => {
+    return {
+        type: CHANGE_CURRENT_PAGE,
+        page
+    }
+}
+
+export const loadingUsersAC = (isLoading) => {
+    return {
+        type: SET_LOADING_USERS,
+        isLoading,
     }
 }
 

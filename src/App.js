@@ -31,7 +31,8 @@ const theme = createMuiTheme({
       primary: "#F5F5F5",
       secondary: "#F5F5F5"
     },
-  }
+  },
+
 })
 
 function App(props) {

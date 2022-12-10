@@ -9,9 +9,11 @@ const useStyles = makeStyles({
     messagingContainer: {
         backgroundColor: "#2C3A47",
         minHeight: "80vh",
+        display: "flex",
+        flexDirection: "column",
     },
     containerMessages: {
-        maxHeight: "68vh",
+        maxHeight: "80vh",
         overflow: "auto",
     }
 })
@@ -41,7 +43,8 @@ const MessagingCom = (props) => {
                 {myMessages}
             </Grid>
 
-           <MessageInput messageField={props.messageField}
+           <MessageInput
+               messageField={props.messageField}
                          changeMessageField={props.changeMessageField}
                          addMessage={props.addMessage}
            />

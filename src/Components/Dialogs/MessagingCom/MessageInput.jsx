@@ -4,7 +4,7 @@ import SendIcon from "@material-ui/icons/Send";
 const useStyles = makeStyles({
     messageInput: {
         maxHeight: 150,
-        minHeight: "20%"
+        minHeight: "20%",
     }
 
 })
@@ -25,7 +25,7 @@ const MessageInput = (props) => {
     }
 
     return(
-        <Grid item xs={12}>
+        <Grid item >
             <FormControl variant="outlined" placeholder={"Write a message"} fullWidth >
                 <OutlinedInput
                     className={classes.messageInput}
