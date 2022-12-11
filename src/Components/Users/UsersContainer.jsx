@@ -49,26 +49,13 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onUserFollow: (userId) => {
-            dispatch(followActionCreator(userId));
-        },
-        onUserUnFollowP: (userId) => {
-            dispatch(unFollowActionCreator(userId));
-        },
-        onSetUsers: (data) => {
-            dispatch(setUsersActionCreator(data));
-        },
-        changeCurrentPage: (page) => {
-            dispatch(changeCurrentPageAC(page))
-        },
-        setLoadingUsers: (isLoading) => {
-            dispatch(loadingUsersAC(isLoading))
-        }
-    }
-}
 
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UserContainerComponent);
+const UsersContainer = connect(mapStateToProps, {
+    onUserFollow: followActionCreator,
+    onUserUnFollowP: unFollowActionCreator,
+    onSetUsers: setUsersActionCreator,
+    changeCurrentPage: changeCurrentPageAC,
+    setLoadingUsers: loadingUsersAC,
+})(UserContainerComponent);
 
 export default UsersContainer;
