@@ -30,41 +30,19 @@ const useStyles = makeStyles({
 });
 
 
-class Users extends React.Component {
-    constructor(props) {
-        super(props);
+const Users = (props) => {
 
-    }
-
-    componentDidMount() {
-        this.props.setLoadingUsers(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.items}&page=${this.props.currentPage}`)
-            .then(response => response.data).then(data => this.props.onSetUsers({...data}));
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.currentPage !== this.props.currentPage) {
-            this.props.setLoadingUsers(true);
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.items}&page=${this.props.currentPage}`)
-                .then(response => response.data).then(data => this.props.onSetUsers({...data}));
-
-        }
+    const onPageChange = (page, value) => {
+        props.changeCurrentPage(value);
     }
 
 
-    onPageChange(page, value) {
-            this.props.changeCurrentPage(value);
-    }
-
-
-    render() {
-
-        return (
-            <Grid container spacing={1}>
-                {
-                    this.props.loadingUsers  ?
-                        (
-                            <div
+    return (
+        <Grid container spacing={1}>
+            {
+                props.loadingUsers  ?
+                    (
+                        <div
                             style={{
                                 width: '100%',
                                 display: 'flex',
@@ -72,85 +50,84 @@ class Users extends React.Component {
                                 justifyContent: 'space-around',
                                 flexWrap: "wrap"
                             }}
-                            >
-                                {
-                                    Array.apply(null, Array(18)).map(el => (
-                                        <Grid item style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            marginBottom: 10,
-                                        }} xs={12} sm={4}>
-                                            <Skeleton variant="rectangular" width={210} height={118} />
-                                            <Skeleton width="40%" />
-                                            <Skeleton width="30%" />
-                                        </Grid>
-                                    ))
-                                }
-                            </div>
+                        >
+                            {
+                                Array.apply(null, Array(18)).map(el => (
+                                    <Grid item style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginBottom: 10,
+                                    }} xs={12} sm={4}>
+                                        <Skeleton variant="rectangular" width={210} height={118} />
+                                        <Skeleton width="40%" />
+                                        <Skeleton width="30%" />
+                                    </Grid>
+                                ))
+                            }
+                        </div>
 
-                        )
-                        :
-
-                    this.props.users.map(u => {
-                    return (
-                        <Grid item xs={12} sm={4}>
-                            <Card
-                                style={{
-                                    backgroundColor: "#2d3436"
-                                }}
-                            >
-                                <CardHeader
-                                    avatar={
-                                        <Avatar aria-label="recipe" alt={u.name} style={{
-                                            width: 60,
-                                            height: 60
-                                        }
-                                        } src={u?.photos?.small}/>
-                                    }
-
-                                    title={<Typography variant="h5">
-                                        {u.name}
-                                    </Typography>}
-                                    subheader={<Typography variant="subtitle1">
-                                        {`${u?.location?.country || ''} ${u?.location?.city || ''}`}
-                                    </Typography>}
-                                />
-
-                                <CardContent>
-                                    <Typography variant="body1" component="p">
-                                        {u.status}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions disableSpacing>
-                                    {u.followed ? <Button onClick={() => {
-                                            this.props.onUserUnFollowP(u.id);
-                                        }} variant={"outlined"} color={"secondary"}>Unfollow</Button> :
-                                        <Button onClick={() => {
-                                            this.props.onUserFollow(u.id);
-                                        }} variant={"contained"} color={"primary"}>Follow</Button>}
-                                </CardActions>
-                            </Card>
-                        </Grid>
                     )
-                })}
-                <div style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 10,
-                    alignSelf: 'bottom'
-                }}>
-                    <Pagination count={this.props.totalPages}
-                                page={this.props.currentPage}
-                                onChange={(event, value) => this.onPageChange(event, value)}
-                    />
-                </div>
-            </Grid>
-        )
-    }
+                    :
+
+                    props.users.map(u => {
+                        return (
+                            <Grid item xs={12} sm={4}>
+                                <Card
+                                    style={{
+                                        backgroundColor: "#2d3436"
+                                    }}
+                                >
+                                    <CardHeader
+                                        avatar={
+                                            <Avatar aria-label="recipe" alt={u.name} style={{
+                                                width: 60,
+                                                height: 60
+                                            }
+                                            } src={u?.photos?.small}/>
+                                        }
+
+                                        title={<Typography variant="h5">
+                                            {u.name}
+                                        </Typography>}
+                                        subheader={<Typography variant="subtitle1">
+                                            {`${u?.location?.country || ''} ${u?.location?.city || ''}`}
+                                        </Typography>}
+                                    />
+
+                                    <CardContent>
+                                        <Typography variant="body1" component="p">
+                                            {u.status}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions disableSpacing>
+                                        {u.followed ? <Button onClick={() => {
+                                                props.onUserUnFollowP(u.id);
+                                            }} variant={"outlined"} color={"secondary"}>Unfollow</Button> :
+                                            <Button onClick={() => {
+                                                props.onUserFollow(u.id);
+                                            }} variant={"contained"} color={"primary"}>Follow</Button>}
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        )
+                    })}
+            <div style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 10,
+                alignSelf: 'bottom'
+            }}>
+                <Pagination count={props.totalPages}
+                            page={props.currentPage}
+                            onChange={(event, value) => onPageChange(event, value)}
+                />
+            </div>
+        </Grid>
+    )
 }
 
 
