@@ -2,10 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
 import {followActionCreator, setUsersActionCreator, unFollowActionCreator, changeCurrentPageAC, loadingUsersAC, loadingUserActionAC} from "../../Redux/Reduсers/users-reducer";
-import axios from "axios";
-
-
-
+import {UsersApi} from "../../api/api";
 
 class UserContainerComponent extends React.Component {
     constructor(props) {
@@ -14,19 +11,13 @@ class UserContainerComponent extends React.Component {
 
     componentDidMount() {
         this.props.setLoadingUsers(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.items}&page=${this.props.currentPage}`, {
-            withCredentials: true,
-        })
-            .then(response => response.data).then(data => this.props.onSetUsers({...data}));
+        UsersApi.getUsers(this.props.items, this.props.currentPage).then(data => this.props.onSetUsers({...data}));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.currentPage !== this.props.currentPage) {
             this.props.setLoadingUsers(true);
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.items}&page=${this.props.currentPage}`, {
-                withCredentials: true,
-            })
-                .then(response => response.data).then(data => this.props.onSetUsers({...data}));
+            UsersApi.getUsers(this.props.items, this.props.currentPage).then(data => this.props.onSetUsers({...data}));
 
         }
     }
