@@ -1,10 +1,11 @@
 import "./App.css"
 import Header from "./Components/Header/Header";
-import Profile from "./Components/Profile/Profile";
+import ProfileContainer from "./Components/Profile/ProfileContainer";
 import {Container, createMuiTheme, makeStyles, MuiThemeProvider} from "@material-ui/core";
 import Dialogs from "./Components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
 import UsersContainer from "./Components/Users/UsersContainer";
+import HeaderContainer from "./Components/Header/HeaderContainer";
 
 const useStyles = makeStyles({
   AppContent: {
@@ -43,14 +44,14 @@ function App(props) {
 
       <MuiThemeProvider theme={theme} >
           <Container className={classes.AppContent} maxWidth={"lg"} >
-            <Header />
+            <HeaderContainer />
 
             <Route exact path={'/'} >
               <div>Home</div>
             </Route>
 
-            <Route  path={'/profile'} >
-              <Profile />
+            <Route  path={'/profile/:userId?'} >
+              <ProfileContainer />
             </Route>
 
             <Route  path={'/dialogs'} >

@@ -1,16 +1,23 @@
 const ADD_POST = "ADD-POST";
 const CHANGE_POST_FIELD = "CHANGE-POST-FIELD";
-
+const SET_PROFILE = "SET_PROFILE";
+const PROFILE_LOADING = "PROFILE_LOADING";
 
 const initialState = {
-    profileInfo: {
-        userName: "Cristian Cojocaru",
-        avatar: null,
+    profile: {
+        fullName: "Cristian Cojocaru",
+        photos: {},
         dateOfBirth: "17 November",
+        aboutMe: '',
         city: "Chisinau",
         education: "CEEE",
-        webSite: null
+        webSite: null,
+        userId: null,
+        lookingForAJob: null,
+        lookingForAJobDescription: null,
+        contacts: {},
     },
+    isProfileLoading: false,
     postsData: {
         posts: [
             {id: 1, post: "Hey, why nobody loves me?"},
@@ -50,6 +57,18 @@ const profileReducer = (state = initialState, action) => {
                 }
             };
         }
+        case SET_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile,
+            }
+        }
+        case PROFILE_LOADING: {
+            return {
+                ...state,
+                isProfileLoading: !state.isProfileLoading
+            }
+        }
         default: {
             return state;
         }
@@ -58,6 +77,15 @@ const profileReducer = (state = initialState, action) => {
 }
 
 
+export const setProfileLoading = () => ({
+    type: PROFILE_LOADING,
+})
+
+
+export const setUserProfile = (profile) => ({
+    type: SET_PROFILE,
+    profile
+})
 
 export const addPostActionCreator = () => {
     return(

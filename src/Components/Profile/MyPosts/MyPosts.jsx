@@ -2,6 +2,7 @@ import React from "react";
 import {Box, Button, Grid, TextField, Typography} from "@material-ui/core";
 import Post from "./Post/Post";
 import {PostAdd} from "@material-ui/icons";
+import Skeleton from "@mui/material/Skeleton";
 
 
 
@@ -10,7 +11,7 @@ const MyPosts = (props) => {
 
     const posts = props.posts.map((post) => {
         return (
-            <Post profileInfo={props.profileInfo} com={post.post} id={post.id}/>
+            <Post profile={props.profile} com={post.post} id={post.id}/>
         )
     }).reverse();
 
@@ -44,7 +45,17 @@ const MyPosts = (props) => {
             </Grid>
 
             <Grid container direction={"column"}>
-                {posts}
+                {
+                    props.isProfileLoading ? (
+                            <Grid item sx={{ width: 300 }} spacing={2}>
+                                <Skeleton />
+                                <Skeleton animation="wave" />
+                                <Skeleton animation={false} />
+                            </Grid>
+                        )
+                        :
+                    posts
+                }
             </Grid>
         </div>
     )
