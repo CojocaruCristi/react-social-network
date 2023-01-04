@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
-import {followActionCreator, setUsersActionCreator, unFollowActionCreator, changeCurrentPageAC, loadingUsersAC} from "../../Redux/Reduсers/users-reducer";
+import {followActionCreator, setUsersActionCreator, unFollowActionCreator, changeCurrentPageAC, loadingUsersAC, loadingUserActionAC} from "../../Redux/Reduсers/users-reducer";
 import axios from "axios";
 
 
@@ -50,6 +50,7 @@ const mapStateToProps = (state) => {
         totalPages: state.usersData.totalPages,
         items: state.usersData.items,
         loadingUsers: state.usersData.loadingUsers,
+        loadingUserAction: state.usersData.loadingUserAction
     }
 }
 
@@ -60,6 +61,7 @@ const UsersContainer = connect(mapStateToProps, {
     onSetUsers: setUsersActionCreator,
     changeCurrentPage: changeCurrentPageAC,
     setLoadingUsers: loadingUsersAC,
+    setLoadingUserAction: loadingUserActionAC,
 })(UserContainerComponent);
 
 export default UsersContainer;

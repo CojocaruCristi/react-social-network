@@ -12,10 +12,11 @@ import {
     Typography,
 } from "@material-ui/core";
 import {red} from "@material-ui/core/colors";
-import axios from "axios";
 import Pagination from '@mui/material/Pagination';
 import Skeleton from '@mui/material/Skeleton';
 import {NavLink} from "react-router-dom";
+import axios from "axios";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 const useStyles = makeStyles({
@@ -106,12 +107,36 @@ const Users = (props) => {
                                         </Typography>
                                     </CardContent>
                                     <CardActions disableSpacing>
-                                        {u.followed ? <Button onClick={() => {
-                                                props.onUserUnFollowP(u.id);
+
+                                        {
+                                            props.loadingUserAction.isLoading && props.loadingUserAction.userId === u.id ? (
+                                                    <LoadingButton style={{
+                                                        borderColor: '#087E8B',
+                                                    }} color={"primary"} loading variant="outlined">
+                                                    loading
+                                                    </LoadingButton>
+                                                )
+                                                : u.followed ? <Button onClick={() => {
+                                                props.setLoadingUserAction(true, u.id);
+                                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+                                                    withCredentials: true
+                                                }).then((response) => {
+                                                    if(response.data.resultCode === 0){
+                                                        props.onUserUnFollowP(u.id);
+                                                    }
+                                                }).catch((error) => console.log("error happened on unffollow", error))
                                             }} variant={"outlined"} color={"secondary"}>Unfollow</Button> :
                                             <Button onClick={() => {
-                                                props.onUserFollow(u.id);
+                                                props.setLoadingUserAction(true, u.id);
+                                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
+                                                    withCredentials: true,
+                                                }).then((response) => {
+                                                    if(response.data.resultCode === 0) {
+                                                        props.onUserFollow(u.id);
+                                                    }
+                                                }).catch((error) => console.log("error happened on follow", error))
                                             }} variant={"contained"} color={"primary"}>Follow</Button>}
+
                                     </CardActions>
                                 </Card>
                             </Grid>
