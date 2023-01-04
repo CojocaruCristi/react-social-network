@@ -15,6 +15,7 @@ import {red} from "@material-ui/core/colors";
 import axios from "axios";
 import Pagination from '@mui/material/Pagination';
 import Skeleton from '@mui/material/Skeleton';
+import {NavLink} from "react-router-dom";
 
 
 const useStyles = makeStyles({
@@ -79,22 +80,25 @@ const Users = (props) => {
                                         backgroundColor: "#2d3436"
                                     }}
                                 >
-                                    <CardHeader
-                                        avatar={
-                                            <Avatar aria-label="recipe" alt={u.name} style={{
-                                                width: 60,
-                                                height: 60
+                                    <NavLink to={`/profile/${u.id}`} >
+                                        <CardHeader
+                                            avatar={
+                                                <Avatar aria-label="recipe" alt={u.name} style={{
+                                                    width: 60,
+                                                    height: 60
+                                                }
+                                                } src={u?.photos?.small}/>
                                             }
-                                            } src={u?.photos?.small}/>
-                                        }
 
-                                        title={<Typography variant="h5">
-                                            {u.name}
-                                        </Typography>}
-                                        subheader={<Typography variant="subtitle1">
-                                            {`${u?.location?.country || ''} ${u?.location?.city || ''}`}
-                                        </Typography>}
-                                    />
+                                            title={<Typography variant="h5">
+                                                {u.name}
+                                            </Typography>}
+                                            subheader={<Typography variant="subtitle1">
+                                                {`${u?.location?.country || ''} ${u?.location?.city || ''}`}
+                                            </Typography>}
+                                        />
+                                    </NavLink>
+
 
                                     <CardContent>
                                         <Typography variant="body1" component="p">
