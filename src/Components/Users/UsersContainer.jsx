@@ -1,8 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
-import {followActionCreator, setUsersActionCreator, unFollowActionCreator, changeCurrentPageAC, loadingUsersAC, loadingUserActionAC} from "../../Redux/Reduсers/users-reducer";
-import {UsersApi} from "../../api/api";
+import {
+    changeCurrentPageAC,
+    getUsersThunkCreator,
+    followUserThunkCreator,
+    unfollowThunkCreator
+} from "../../Redux/Reduсers/users-reducer";
 
 class UserContainerComponent extends React.Component {
     constructor(props) {
@@ -10,14 +14,12 @@ class UserContainerComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.props.setLoadingUsers(true);
-        UsersApi.getUsers(this.props.items, this.props.currentPage).then(data => this.props.onSetUsers({...data}));
+        this.props.getUsersThunkCreator(this.props.items, this.props.currentPage);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.currentPage !== this.props.currentPage) {
-            this.props.setLoadingUsers(true);
-            UsersApi.getUsers(this.props.items, this.props.currentPage).then(data => this.props.onSetUsers({...data}));
+            this.props.getUsersThunkCreator(this.props.items, this.props.currentPage);
 
         }
     }
@@ -47,12 +49,10 @@ const mapStateToProps = (state) => {
 
 
 const UsersContainer = connect(mapStateToProps, {
-    onUserFollow: followActionCreator,
-    onUserUnFollowP: unFollowActionCreator,
-    onSetUsers: setUsersActionCreator,
     changeCurrentPage: changeCurrentPageAC,
-    setLoadingUsers: loadingUsersAC,
-    setLoadingUserAction: loadingUserActionAC,
+    getUsersThunkCreator,
+    followUserThunkCreator,
+    unfollowThunkCreator
 })(UserContainerComponent);
 
 export default UsersContainer;

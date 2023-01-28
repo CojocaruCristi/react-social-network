@@ -1,29 +1,22 @@
 import React from "react";
 import {connect} from "react-redux";
-import {setUserAvatar, setUserProfile} from "../../Redux/Reduсers/auth-reducer";
+import {
+    authMeThunkCreator,
+    getProfileByIdThunkCreator,
+} from "../../Redux/Reduсers/auth-reducer";
 import Header from "./Header";
-import {AuthApi} from "../../api/api";
-import {ProfileApi} from "../../api/api";
 class HeaderContainer extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        AuthApi.authMe()
-            .then(data => {
-                if(data.resultCode === 0) {
-                    this.props.setUserProfile(data.data.id, data.data.email, data.data.login)
-                }
-            })
+        this.props.authMeThunkCreator();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.isAuth !== this.props.isAuth) {
-            ProfileApi.getProfileById(this.props.userId)
-                .then(data => {
-                    this.props.setUserAvatar(data.photos);
-                })
+            this.props.getProfileByIdThunkCreator(this.props.userId);
         }
     }
 
@@ -40,6 +33,6 @@ const mapStateToProps = (state) => ({...state.authData})
 
 
 export default connect(mapStateToProps, {
-    setUserProfile,
-    setUserAvatar
+    authMeThunkCreator,
+    getProfileByIdThunkCreator
 })(HeaderContainer);
