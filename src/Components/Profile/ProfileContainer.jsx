@@ -1,9 +1,8 @@
 import React from "react";
 import Profile from './Profile';
 import {connect} from "react-redux";
-import {setProfileLoading, setUserProfile} from "../../Redux/Reduсers/profile-reducer";
+import {getProfileByIdThunkCreator} from "../../Redux/Reduсers/profile-reducer";
 import {withRouter} from "react-router-dom";
-import {ProfileApi} from "../../api/api";
 
 
 class ProfileContainer extends React.Component {
@@ -16,11 +15,8 @@ class ProfileContainer extends React.Component {
         if(!userId) {
             userId = 7748;
         }
-        this.props.setProfileLoading()
-        ProfileApi.getProfileById(userId).then(data => {
-            this.props.setUserProfile({...data});
-            this.props.setProfileLoading();
-        });
+
+        this.props.getProfileByIdThunkCreator(userId);
     }
 
 
@@ -37,6 +33,6 @@ const mapDispatchToProps = (state) => ({
 })
 
 export default connect(mapDispatchToProps, {
-    setUserProfile,
-    setProfileLoading,
+    getProfileByIdThunkCreator,
+
 })(withRouter(ProfileContainer));

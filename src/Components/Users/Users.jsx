@@ -14,7 +14,6 @@ import Pagination from '@mui/material/Pagination';
 import Skeleton from '@mui/material/Skeleton';
 import {NavLink} from "react-router-dom";
 import LoadingButton from '@mui/lab/LoadingButton';
-import {FollowApi} from "../../api/api";
 
 const useStyles = makeStyles({
     root: {
@@ -114,21 +113,10 @@ const Users = (props) => {
                                                     </LoadingButton>
                                                 )
                                                 : u.followed ? <Button onClick={() => {
-                                                props.setLoadingUserAction(true, u.id);
-                                                FollowApi.unfollow(u.id)
-                                                .then((data) => {
-                                                    if(data.resultCode === 0){
-                                                        props.onUserUnFollowP(u.id);
-                                                    }
-                                                }).catch((error) => console.log("error happened on unffollow", error))
+                                                props.unfollowThunkCreator(u.id);
                                             }} variant={"outlined"} color={"secondary"}>Unfollow</Button> :
                                             <Button onClick={() => {
-                                                props.setLoadingUserAction(true, u.id);
-                                                FollowApi.follow(u.id).then((data) => {
-                                                    if(data.resultCode === 0) {
-                                                        props.onUserFollow(u.id);
-                                                    }
-                                                }).catch((error) => console.log("error happened on follow", error))
+                                                props.followUserThunkCreator(u.id);
                                             }} variant={"contained"} color={"primary"}>Follow</Button>}
 
                                     </CardActions>

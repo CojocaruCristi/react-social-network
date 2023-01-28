@@ -1,3 +1,5 @@
+import {FollowApi, UsersApi} from "../../api/api";
+
 const FOLLOW = "FOLLOW";
 const UN_FOLLOW = "UN_FOLLOW";
 const SET_USERS = "SET_USERS";
@@ -91,6 +93,8 @@ const usersReducer = (state = initialState, action) => {
 
 }
 
+//action creators ----->
+
 export const followActionCreator = (userId) => {
     return {
         type: FOLLOW,
@@ -133,6 +137,36 @@ export const loadingUserActionAC = (isLoading, userId) => {
         userId,
     }
 }
+
+
+//thunk creators ----->
+
+export const getUsersThunkCreator = (items, currentPage) => (dispatch) => {
+    dispatch(loadingUsersAC(true));
+    UsersApi.getUsers(items, currentPage).then(data => dispatch(setUsersActionCreator({...data})));
+}
+
+export const followUserThunkCreator = (userId) => (dispatch) => {
+    dispatch(loadingUserActionAC(true, userId));
+    FollowApi.follow(userId).then((data) => {
+        if(data.resultCode === 0) {
+            dispatch(followActionCreator(userId));
+        }
+    }).catch((error) => console.log("error happened on follow", error))
+}
+
+export const unfollowThunkCreator = (userId) => (dispatch) => {
+    dispatch(loadingUserActionAC(true, userId));
+    FollowApi.unfollow(userId)
+        .then((data) => {
+            if(data.resultCode === 0){
+                dispatch(unFollowActionCreator(userId));
+            }
+        }).catch((error) => console.log("error happened on unffollow", error))
+}
+
+
+
 
 export default usersReducer;
 
