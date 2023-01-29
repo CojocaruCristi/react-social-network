@@ -1,7 +1,8 @@
 import React from "react";
 import {Avatar, Box, Grid, makeStyles, Typography} from "@material-ui/core";
 import Skeleton from "@mui/material/Skeleton";
-
+import ProfileStatus from './ProfileStatus';
+import {updateProfileStatusThunkCreator} from "../../../Redux/Reduсers/profile-reducer";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +49,12 @@ const ProfileInfo = (props) => {
                                 <Grid item>
                                     <Typography variant={"h5"} >{props?.profile?.fullName}</Typography>
                                     <br/>
-                                    <Typography >About Me: {props?.profile?.aboutMe}</Typography>
+                                    {/*<Typography >About Me: {props?.profile?.aboutMe}</Typography>*/}
+                                    <ProfileStatus status={props?.profile?.aboutMe}
+                                                   updateProfileStatusThunkCreator={props?.updateProfileStatusThunkCreator}
+                                                   isStatusLoading={props.isStatusLoading}
+                                                   routeMatch={props.match}
+                                    />
                                     <Typography >Date of Birth: {props?.profile?.dateOfBirth}</Typography>
                                     <Typography >City: {props?.profile?.city}</Typography>
                                     <Typography>Education: {props?.profile?.education}</Typography>

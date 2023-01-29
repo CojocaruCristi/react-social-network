@@ -4,6 +4,8 @@ const ADD_POST = "ADD-POST";
 const CHANGE_POST_FIELD = "CHANGE-POST-FIELD";
 const SET_PROFILE = "SET_PROFILE";
 const PROFILE_LOADING = "PROFILE_LOADING";
+const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
+const SET_STATUS_LOADING = "SET_STATUS_LOADING";
 
 const initialState = {
     profile: {
@@ -27,7 +29,8 @@ const initialState = {
             {id: 3, post: "I am learning react + redux + MUI"}
         ],
         postField: ""
-    }
+    },
+    isStatusLoading: false,
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -62,13 +65,37 @@ const profileReducer = (state = initialState, action) => {
         case SET_PROFILE: {
             return {
                 ...state,
-                profile: action.profile,
+                profile: {
+                    fullName: action.profile.fullName,
+                    photos: action.profile.photos,
+                    userId: action.profile.userId,
+                    lookingForAJob: action.profile.lookingForAJob,
+                    lookingForAJobDescription: action.profile.lookingForAJobDescription,
+                    contacts: action.profile.contacts
+                },
             }
         }
         case PROFILE_LOADING: {
             return {
                 ...state,
                 isProfileLoading: !state.isProfileLoading
+            }
+        }
+        case SET_PROFILE_STATUS: {
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    aboutMe: action.status,
+
+                }
+            }
+        }
+
+        case SET_STATUS_LOADING: {
+            return {
+                ...state,
+                isStatusLoading: action.isLoading
             }
         }
         default: {
@@ -107,9 +134,37 @@ export const changePostFieldActionCreator = (postText) => {
     )
 }
 
+export const setProfileStatus = (status) => ({
+    type: SET_PROFILE_STATUS,
+    status,
+})
+
+export const setStatusLoading = (isLoading) => ({
+    type: SET_STATUS_LOADING,
+    isLoading,
+})
 
 
 //thunk creators ----->
+
+
+
+export const getProfileStatusThunkCreator = (userId, dispatch) => () => {
+    dispatch(setStatusLoading(true));
+    ProfileApi.getProfileStatus(userId).then((data) => {
+        dispatch(setProfileStatus(data));
+        dispatch(setStatusLoading(false));
+    })
+
+}
+
+export const updateProfileStatusThunkCreator = (status) => (dispatch) => {
+    dispatch(setStatusLoading(true));
+    ProfileApi.updateProfileStatus(status).then(data => {
+        dispatch(setProfileStatus(data));
+        dispatch(setStatusLoading(false));
+    })
+}
 
 export const getProfileByIdThunkCreator = (profileId) => (dispatch) => {
 
@@ -117,8 +172,8 @@ export const getProfileByIdThunkCreator = (profileId) => (dispatch) => {
     ProfileApi.getProfileById(profileId).then(data => {
         dispatch(setUserProfile({...data}));
         dispatch(setProfileLoading());
+        getProfileStatusThunkCreator(profileId, dispatch)();
     });
 
 }
-
 export default profileReducer;
