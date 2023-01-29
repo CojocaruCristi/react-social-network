@@ -7,6 +7,7 @@ import {
     followUserThunkCreator,
     unfollowThunkCreator
 } from "../../Redux/Reduсers/users-reducer";
+import withRedirect from "../../hoc/withRedirect";
 
 class UserContainerComponent extends React.Component {
     constructor(props) {
@@ -47,12 +48,14 @@ const mapStateToProps = (state) => {
     }
 }
 
+const WithRedirectUsers = withRedirect(UserContainerComponent);
+
 
 const UsersContainer = connect(mapStateToProps, {
     changeCurrentPage: changeCurrentPageAC,
     getUsersThunkCreator,
     followUserThunkCreator,
     unfollowThunkCreator
-})(UserContainerComponent);
+})(WithRedirectUsers);
 
 export default UsersContainer;

@@ -2,6 +2,7 @@ import React from "react";
 import MessagingCom from "./MessagingCom";
 import {addNewMessageActionCreator, changeMessageFieldActionCreator} from "../../../Redux/Reduсers/dialogs-reducer";
 import {connect} from "react-redux";
+import withRedirect from "../../../hoc/withRedirect";
 
 
 
@@ -25,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
                     }
     }
 }
-
-const MessagingComContainer = connect(mapStateToProps, mapDispatchToProps)(MessagingCom);
+const WithRedirectMessagingCom = withRedirect(MessagingCom);
+const MessagingComContainer = connect(mapStateToProps, mapDispatchToProps)(WithRedirectMessagingCom);
 
 export default MessagingComContainer;
