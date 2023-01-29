@@ -6,6 +6,7 @@ import Dialogs from "./Components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
 import UsersContainer from "./Components/Users/UsersContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
+import LoginPage from "./Components/Login/Login";
 
 const useStyles = makeStyles({
   AppContent: {
@@ -60,6 +61,10 @@ function App(props) {
 
             <Route path={'/users'} >
               <UsersContainer />
+            </Route>
+
+            <Route path={'/login'} >
+              <LoginPage />
             </Route>
 
           </Container>
