@@ -1,6 +1,7 @@
 import React from "react";
 import DialogsAppBar from "./DialogsAppBar";
 import {connect} from "react-redux";
+import {compose} from "redux";
 
 
 const mapStateToProps = (state) => {
@@ -9,12 +10,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const DialogsAppBarContainer = connect( mapStateToProps, null)(DialogsAppBar);
 
-
-
-
-
-
-
-export default DialogsAppBarContainer
+export default compose(
+    connect( mapStateToProps, null),
+)(DialogsAppBar);

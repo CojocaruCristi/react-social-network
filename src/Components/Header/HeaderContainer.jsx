@@ -5,6 +5,7 @@ import {
     getProfileByIdThunkCreator,
 } from "../../Redux/Reduсers/auth-reducer";
 import Header from "./Header";
+import {compose} from "redux";
 class HeaderContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -32,7 +33,9 @@ const mapStateToProps = (state) => ({...state.authData})
 
 
 
-export default connect(mapStateToProps, {
-    authMeThunkCreator,
-    getProfileByIdThunkCreator
-})(HeaderContainer);
+export default compose(
+    connect(mapStateToProps, {
+        authMeThunkCreator,
+        getProfileByIdThunkCreator
+    })
+)(HeaderContainer);
