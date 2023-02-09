@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {
     authMeThunkCreator,
-    getProfileByIdThunkCreator,
+    getProfileByIdThunkCreator, logOutThunkCreator,
 } from "../../Redux/Reduсers/auth-reducer";
 import Header from "./Header";
 import {compose} from "redux";
@@ -36,6 +36,7 @@ const mapStateToProps = (state) => ({...state.authData})
 export default compose(
     connect(mapStateToProps, {
         authMeThunkCreator,
-        getProfileByIdThunkCreator
+        getProfileByIdThunkCreator,
+        logOut: logOutThunkCreator,
     })
 )(HeaderContainer);

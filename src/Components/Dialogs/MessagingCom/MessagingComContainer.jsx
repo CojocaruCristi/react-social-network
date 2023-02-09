@@ -1,6 +1,6 @@
 import React from "react";
 import MessagingCom from "./MessagingCom";
-import {addNewMessageActionCreator, changeMessageFieldActionCreator} from "../../../Redux/Reduсers/dialogs-reducer";
+import {addNewMessageActionCreator} from "../../../Redux/Reduсers/dialogs-reducer";
 import {connect} from "react-redux";
 import withRedirect from "../../../hoc/withRedirect";
 import {compose} from "redux";
@@ -18,13 +18,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addMessage: () => {
-                        dispatch(addNewMessageActionCreator());
-                        dispatch(changeMessageFieldActionCreator(""));
+        addMessage: (message) => {
+                        dispatch(addNewMessageActionCreator(message));
                     },
-        changeMessageField: (m) => {
-                       dispatch(changeMessageFieldActionCreator(m.target.value));
-                    }
     }
 }
 

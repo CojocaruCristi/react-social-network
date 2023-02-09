@@ -23,14 +23,14 @@ const MessagingCom = (props) => {
 
     const classes = useStyles();
 
-    const hisMessages = props.hisMessages.map( m => {
+    const hisMessages = props.hisMessages.map((m, index) => {
         return(
-            <HisMessage message={m} />
+            <HisMessage message={m} key={index + Math.random()} />
         )
     })
-    const myMessages = props.myMessages.map( m => {
+    const myMessages = props.myMessages.map( (m, index) => {
         return(
-            <MyMessage message={m} />
+            <MyMessage message={m}  key={index + Math.random()} />
         )
     })
 

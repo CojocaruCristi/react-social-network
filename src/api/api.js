@@ -44,6 +44,19 @@ export const AuthApi = {
         return axiosInstance.get(`auth/me`,
         )
             .then(response => response.data)
+    },
+    login(email, password, rememberMe) {
+        return axiosInstance.post('auth/login', {
+            email,
+            password,
+            rememberMe,
+        } ).then(response => {
+
+            return response.data;
+        })
+    },
+    logOut() {
+        return axiosInstance.delete('auth/login').then(response => response.data);
     }
 }
 
@@ -55,12 +68,11 @@ export const ProfileApi = {
     },
 
     updateProfileStatus(status) {
-      return axiosInstance.put('profile/status', {status}).then((response) => console.log('response====>', response));
+      return axiosInstance.put('profile/status', {status}).then((response) => response.data);
     },
 
     getProfileStatus(userId) {
         return axiosInstance.get(`profile/status/${userId}`).then((response) => {
-            console.log('response===========>', response);
             return response.data
         });
     }
