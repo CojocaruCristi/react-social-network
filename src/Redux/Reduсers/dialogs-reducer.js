@@ -1,6 +1,5 @@
 
 const ADD_NEW_MESSAGE = "ADD-NEW-MESSAGE";
-const CHANGE_MESSAGE_FIELD = "CHANGE-MESSAGE-FIELD";
 
 
 const initialState = {
@@ -22,7 +21,6 @@ const initialState = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget hendrerit augue, ac vestibulum augue. Proin vel convallis purus.",
             "Quisque facilisis arcu sed lacus pretium luctus."
         ],
-        messageField: ""
     }
 }
 
@@ -32,24 +30,12 @@ const dialogReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_NEW_MESSAGE: {
 
-            // Checking if the message field is empty, then messaging is canceled
-            if (!state.messages.messageField.replace(/\s/g, '').length) {
-                return state;
-            }
-
             return {
                  ...state,
                 messages: {
                      ...state.messages,
-                    myMessages: [...state.messages.myMessages, state.messages.messageField],
-                    messageField: "",
+                    myMessages: [...state.messages.myMessages, action.message],
                  }
-            };
-        }
-        case CHANGE_MESSAGE_FIELD: {
-            return {
-                ...state,
-                messages: {...state.messages, messageField: action.messageText}
             };
         }
         default: {
@@ -61,24 +47,14 @@ const dialogReducer = (state = initialState, action) => {
 
 
 
-export const addNewMessageActionCreator = () => {
+export const addNewMessageActionCreator = (message) => {
     return(
         {
-            type: ADD_NEW_MESSAGE
+            type: ADD_NEW_MESSAGE,
+            message,
         }
     )
 }
-
-
-export const changeMessageFieldActionCreator = (messageText) => {
-    return(
-        {
-            type: CHANGE_MESSAGE_FIELD,
-            messageText
-        }
-    )
-}
-
 
 
 

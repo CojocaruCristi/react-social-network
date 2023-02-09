@@ -1,7 +1,6 @@
 import {ProfileApi} from "../../api/api";
 
 const ADD_POST = "ADD-POST";
-const CHANGE_POST_FIELD = "CHANGE-POST-FIELD";
 const SET_PROFILE = "SET_PROFILE";
 const PROFILE_LOADING = "PROFILE_LOADING";
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
@@ -28,7 +27,6 @@ const initialState = {
             {id: 2, post: "Be who you were created to be, and you will set the world on fire."},
             {id: 3, post: "I am learning react + redux + MUI"}
         ],
-        postField: ""
     },
     isStatusLoading: false,
 }
@@ -38,28 +36,14 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST: {
 
-            // Checking if the post field is empty, then posting is canceled
-            if (!state.postsData.postField.replace(/\s/g, '').length) {
-                return state;
-            }
-
             return {
                 ...state,
                 postsData: {
                     ...state.postsData,
-                    posts: [...state.postsData.posts, {id: 5, post: state.postsData.postField}],
+                    posts: [...state.postsData.posts, {id: state.postsData.posts.slice(-1).id + 1, post: action.postMessage}],
                     postField: ""
                 }
 
-            };
-        }
-        case CHANGE_POST_FIELD: {
-            return {
-                ...state,
-                postsData: {
-                    ...state.postsData,
-                    postField: action.postText
-                }
             };
         }
         case SET_PROFILE: {
@@ -116,20 +100,11 @@ export const setUserProfile = (profile) => ({
     profile
 })
 
-export const addPostActionCreator = () => {
+export const addPostActionCreator = (postMessage) => {
     return(
         {
-            type: ADD_POST
-        }
-    )
-}
-
-export const changePostFieldActionCreator = (postText) => {
-    return(
-        {
-            type: CHANGE_POST_FIELD,
-            postText
-
+            type: ADD_POST,
+            postMessage
         }
     )
 }
@@ -146,8 +121,6 @@ export const setStatusLoading = (isLoading) => ({
 
 
 //thunk creators ----->
-
-
 
 export const getProfileStatusThunkCreator = (userId, dispatch) => () => {
     dispatch(setStatusLoading(true));

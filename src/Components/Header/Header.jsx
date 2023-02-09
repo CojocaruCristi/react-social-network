@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {
-    AppBar, Avatar,
+    AppBar, Avatar, Button,
     Drawer,
     IconButton,
     makeStyles,
@@ -8,6 +8,8 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import NavBar from "../NavBar/NavBar";
+import {Link} from "react-router-dom";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginRight: 20,
+    },
+    loggedBlock: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
     }
 }));
 
@@ -60,25 +68,42 @@ const Header = (props) => {
             <div className={classes.authBlock}>
                 {
                     props.isAuth ? (
-                            <div className={classes.avatarLogin}>
+                            <div className={classes.loggedBlock}>
+                                <div className={classes.avatarLogin}>
 
-                                <Avatar alt={props.login} src={props.photo?.small} />
-                                <Typography variant="h8">
-                                    {props.login}
-                                </Typography>
+                                    <Avatar alt={props.login} src={props.photo?.small}/>
+                                    <Typography variant="h8">
+                                        {props.login}
+                                    </Typography>
+                                </div>
+
+                                {
+                                    props.isLogOutLoading ? (
+                                            <LoadingButton
+                                                loading
+                                                variant="contained"
+                                                color={"primary"}
+                                            >
+                                                Submit
+                                            </LoadingButton>
+                                        )
+                                        : (
+                                            <Button variant="outlined" onClick={props.logOut}>Log out</Button>
+                                        )
+                                }
                             </div>
                         )
                         :
                         (
-                            <Typography variant="h8">
+                            <Link to={'/login'} variant="h8">
                                 Login
-                            </Typography>
+                            </Link>
                         )
                 }
             </div>
         </AppBar>
 
-    )
+    );
 }
 
 

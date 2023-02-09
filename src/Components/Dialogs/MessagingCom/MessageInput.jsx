@@ -1,52 +1,19 @@
 import React from "react";
-import {FormControl, Grid, IconButton, InputAdornment, makeStyles, OutlinedInput} from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
-const useStyles = makeStyles({
-    messageInput: {
-        maxHeight: 150,
-        minHeight: "20%",
-    }
-
-})
-
-
+import {Grid} from "@material-ui/core";
+import MessageForm from "./MessageForm";
 
 const MessageInput = (props) => {
 
-    const classes = useStyles();
 
-    const messageInputRef = React.createRef();
 
-    const OnAddMessage = () => {
-        props.addMessage();
-    }
-    const onChangeMessageField = (m) => {
-        props.changeMessageField(m);
+    const OnAddMessage = (data, ) => {
+        props.addMessage(data.message);
     }
 
     return(
         <Grid item >
-            <FormControl variant="outlined" placeholder={"Write a message"} fullWidth >
-                <OutlinedInput
-                    className={classes.messageInput}
-                    placeholder={"Write a message"}
-                    multiline
-                    rows={4}
-                    inputRef={messageInputRef}
-                    value={props.messageField}
-                    onChange={onChangeMessageField}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                edge="end"
-                                onClick={OnAddMessage}
-                            >
-                                <SendIcon color={"primary"} />
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-            </FormControl>
+
+            <MessageForm onSubmit={OnAddMessage} />
 
         </Grid>
     )

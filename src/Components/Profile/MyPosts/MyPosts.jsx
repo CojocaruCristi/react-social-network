@@ -1,13 +1,15 @@
 import React from "react";
-import {Box, Button, Grid, TextField, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@material-ui/core";
 import Post from "./Post/Post";
-import {PostAdd} from "@material-ui/icons";
 import Skeleton from "@mui/material/Skeleton";
+import PostForm from "./PostForm";
 
 
 
 
 const MyPosts = (props) => {
+
+    console.log('my posts props====>', props);
 
     const posts = props.posts.map((post) => {
         return (
@@ -15,15 +17,9 @@ const MyPosts = (props) => {
         )
     }).reverse();
 
-    const postInputRef = React.createRef();
 
-    const onAddPost = () => {
-        props.addPost();
-    }
-
-    const OnChangePostField = (c) => {
-        props.changePostField(c);
-
+    const onAddPost = (data) => {
+        props.addPost(data.postMessage);
     }
 
 
@@ -32,15 +28,8 @@ const MyPosts = (props) => {
         <div>
             <Grid container>
                 <Grid item xs={12}>
-                    <Typography variant={"h4"}>My Posts</Typography>
-
-                    <TextField onChange={OnChangePostField} inputRef={postInputRef} rows={6} margin={"normal"} fullWidth={true} multiline={true} variant={"outlined"}
-                               label={"Write a post"}  style={{color: "inherit"}} value={props.postField}/>
-
-                    <Box display={"flex"} justifyContent={"flex-end"}>
-                        <Button onClick={onAddPost} startIcon={<PostAdd/>} variant={"contained"} size={"large"}
-                                color={"primary"}>Post</Button>
-                    </Box>
+                    <Typography variant={"h4"}> {!props.match.params.userId && 'My'} Posts</Typography>
+                    {!props.match.params.userId && <PostForm onSubmit={onAddPost} />}
                 </Grid>
             </Grid>
 
