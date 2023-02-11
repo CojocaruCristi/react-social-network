@@ -7,6 +7,11 @@ import {Route} from "react-router-dom";
 import UsersContainer from "./Components/Users/UsersContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import LoginPage from "./Components/Login/Login";
+import {connect} from "react-redux";
+import {initializeAppThunkCreator} from "./Redux/Reduсers/app-reducer";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import {useEffect} from "react";
 
 const useStyles = makeStyles({
   AppContent: {
@@ -16,6 +21,11 @@ const useStyles = makeStyles({
     color: "#F5F5F5",
     marginTop: 68
   },
+  loadingBackground: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%'
+  }
 })
 
 
@@ -39,13 +49,30 @@ const theme = createMuiTheme({
 
 function App(props) {
 
-  const classes = useStyles();
+  useEffect(() => {
+      props.initializeAppThunkCreator();
+  }, [])
 
+  const classes = useStyles();
   return (
 
       <MuiThemeProvider theme={theme} >
-          <Container className={classes.AppContent} maxWidth={"lg"} >
-            <HeaderContainer />
+        {
+          !props.isAppInitialized ? (
+        <Container className={classes.loadingBackground} maxWidth={"lg"}>
+          <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={!props.isAppInitialized}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        </Container>
+
+          )
+              :
+              (
+        <Container className={classes.AppContent} maxWidth={"lg"} >
+          <HeaderContainer />
 
             <Route exact path={'/'} >
               <div>Home</div>
@@ -68,8 +95,17 @@ function App(props) {
             </Route>
 
           </Container>
+
+              )
+        }
       </MuiThemeProvider>
   );
 }
 
-export default App;
+const mapDispatchToProps = (state) => ({
+  isAppInitialized: state.appData.isAppInitialized,
+})
+
+export default connect(mapDispatchToProps, {
+  initializeAppThunkCreator
+})(App);

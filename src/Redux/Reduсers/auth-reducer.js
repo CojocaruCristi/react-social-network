@@ -103,7 +103,7 @@ export const setErrorMessage = (message) => ({
 
 export const authMeThunkCreator = () => (dispatch) => {
 
-    AuthApi.authMe()
+    return AuthApi.authMe()
         .then(data => {
             if(data.resultCode === 0) {
                 dispatch(setUserProfile(data.data.id, data.data.email, data.data.login, true));
@@ -112,15 +112,17 @@ export const authMeThunkCreator = () => (dispatch) => {
             }
             dispatch(setIsLogInLoading(false));
             dispatch(setIsLogOutLoading(false));
+            return data;
         })
 
 }
 
 export const getProfileByIdThunkCreator = (profileId) => (dispatch) => {
 
-    ProfileApi.getProfileById(profileId)
+    return ProfileApi.getProfileById(profileId)
         .then(data => {
             dispatch(setUserAvatar(data.photos));
+            return data;
         })
 
 }

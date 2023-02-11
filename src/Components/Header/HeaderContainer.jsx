@@ -11,9 +11,6 @@ class HeaderContainer extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.authMeThunkCreator();
-    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.isAuth !== this.props.isAuth) {
