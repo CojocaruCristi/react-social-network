@@ -4,6 +4,7 @@ import axios from 'axios';
 const axiosInstance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
+
     headers: {
         'API-KEY': '7b194964-ceb2-45ed-8a3c-f802f7c6cb4e',
     }
@@ -75,5 +76,18 @@ export const ProfileApi = {
         return axiosInstance.get(`profile/status/${userId}`).then((response) => {
             return response.data
         });
+    },
+    changeProfilePhoto(photoFile) {
+        const formData = new FormData();
+
+        formData.append("image", photoFile);
+
+        return axiosInstance.put('profile/photo', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            return response.data;
+        })
     }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import Profile from './Profile';
 import {connect} from "react-redux";
 import {
+    changeProfileImageThunkCreator,
     getProfileByIdThunkCreator,
     getProfileStatusThunkCreator,
     updateProfileStatusThunkCreator
@@ -38,6 +39,7 @@ const mapDispatchToProps = (state) => ({
     profile: state.profileData.profile,
     isProfileLoading: state.profileData.isProfileLoading,
     isStatusLoading: state.profileData.isStatusLoading,
+    isProfileImageLoading: state.profileData.isProfileImageLoading,
 })
 
 
@@ -47,6 +49,7 @@ export default compose(
         getProfileByIdThunkCreator,
         getProfileStatusThunkCreator,
         updateProfileStatusThunkCreator,
+        changeProfileImageThunkCreator,
     }),
     withRouter,
     withRedirect
