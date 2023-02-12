@@ -89,5 +89,8 @@ export const ProfileApi = {
         }).then(response => {
             return response.data;
         })
+    },
+    editProfileData(profileData) {
+        return axiosInstance.put('profile', profileData).then((response) => response.data);
     }
 }

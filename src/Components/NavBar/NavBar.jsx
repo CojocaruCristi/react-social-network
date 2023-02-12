@@ -3,7 +3,7 @@ import {Divider, List, ListItem, ListItemIcon, ListItemText, makeStyles} from "@
 import {Link} from "react-router-dom";
 import PersonIcon from '@material-ui/icons/Person';
 import MessageIcon from '@material-ui/icons/Message';
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 import SettingsIcon from '@material-ui/icons/Settings';
 import GroupIcon from '@material-ui/icons/Group';
 
@@ -19,7 +19,7 @@ const NavBar = () => {
     const classes = useStyles();
     return (
         <List button key={"text"}>
-            <Link to={'/profile'}>
+            <Link to={'/profile/me'}>
                 <ListItem button >
                     <ListItemIcon> <PersonIcon/> </ListItemIcon>
                     <ListItemText className={classes.listItem}>PROFILE</ListItemText>
@@ -39,8 +39,8 @@ const NavBar = () => {
             </Link>
             <Link to={'/music'}>
                 <ListItem button>
-                    <ListItemIcon> <MusicNoteIcon/> </ListItemIcon>
-                    <ListItemText className={classes.listItem}>MUSIC</ListItemText>
+                    <ListItemIcon> <NewspaperIcon/> </ListItemIcon>
+                    <ListItemText className={classes.listItem}>NEWS</ListItemText>
                 </ListItem>
             </Link>
             <Divider/>

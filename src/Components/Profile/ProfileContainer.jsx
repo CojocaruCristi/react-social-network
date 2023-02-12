@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Profile from './Profile';
 import {connect} from "react-redux";
 import {
-    changeProfileImageThunkCreator,
+    changeProfileImageThunkCreator, changeProfileThunkCreator,
     getProfileByIdThunkCreator,
-    getProfileStatusThunkCreator,
+    getProfileStatusThunkCreator, setShouldProfileUpdate,
     updateProfileStatusThunkCreator
 } from "../../Redux/Reduсers/profile-reducer";
 import {withRouter} from "react-router-dom";
@@ -12,27 +12,26 @@ import withRedirect from "../../hoc/withRedirect";
 import {compose} from "redux";
 
 
-class ProfileContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const ProfileContainer = (props) => {
 
-    componentDidMount() {
-        let userId = this.props.match.params.userId;
-        if(!userId) {
-            userId = 7748;
+    const geUserProfile = () => {
+        let userId = props.match.params.userId;
+        if(userId === 'me') {
+            userId = props.authUserId;
         }
 
-        this.props.getProfileByIdThunkCreator(userId);
-        // this.props.getProfileStatusThunkCreator(userId);
+        props.getProfileByIdThunkCreator(userId);
     }
 
+    useEffect(() => {
+        if(props.shouldProfileUpdate || props.match.params.userId) {
+            geUserProfile();
+        }
+    }, [props.shouldProfileUpdate, props.match.params.userId]);
 
-    render() {
-        return (
-            <Profile {...this.props} />
-        )
-    }
+    return (
+        <Profile {...props} />
+    )
 }
 
 const mapDispatchToProps = (state) => ({
@@ -40,6 +39,9 @@ const mapDispatchToProps = (state) => ({
     isProfileLoading: state.profileData.isProfileLoading,
     isStatusLoading: state.profileData.isStatusLoading,
     isProfileImageLoading: state.profileData.isProfileImageLoading,
+    isProfileFormLoading: state.profileData.isProfileFormLoading,
+    shouldProfileUpdate: state.profileData.shouldProfileUpdate,
+    authUserId: state.authData.userId,
 })
 
 
@@ -50,6 +52,8 @@ export default compose(
         getProfileStatusThunkCreator,
         updateProfileStatusThunkCreator,
         changeProfileImageThunkCreator,
+        changeProfileThunkCreator,
+        setShouldProfileUpdate
     }),
     withRouter,
     withRedirect

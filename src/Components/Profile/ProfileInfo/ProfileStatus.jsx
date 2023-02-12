@@ -17,7 +17,7 @@ const ProfileStatus = (props) => {
 
 
     const activateEditMode = () => {
-        if(!props.routeMatch.params.userId){
+        if(props.routeMatch.params.userId === 'me'){
             setEditMode(true);
         }
     }
