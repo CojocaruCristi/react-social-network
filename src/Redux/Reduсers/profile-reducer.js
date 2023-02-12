@@ -1,11 +1,13 @@
 import {ProfileApi} from "../../api/api";
+import {setUserAvatar} from "./auth-reducer";
 
 const ADD_POST = "ADD-POST";
 const SET_PROFILE = "SET_PROFILE";
 const PROFILE_LOADING = "PROFILE_LOADING";
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
 const SET_STATUS_LOADING = "SET_STATUS_LOADING";
-
+const SET_PROFILE_PHOTO = "profile-reducer/SET_PROFILE_PHOTO";
+const SET_LOADING_PROFILE_IMAGE = "profile-reducer/SET_LOADING_PROFILE_IMAGE";
 const initialState = {
     profile: {
         fullName: "Cristian Cojocaru",
@@ -29,6 +31,7 @@ const initialState = {
         ],
     },
     isStatusLoading: false,
+    isProfileImageLoading: false,
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -82,6 +85,21 @@ const profileReducer = (state = initialState, action) => {
                 isStatusLoading: action.isLoading
             }
         }
+        case SET_PROFILE_PHOTO: {
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    photos: action.photos,
+                }
+            }
+        }
+        case SET_LOADING_PROFILE_IMAGE: {
+            return {
+                ...state,
+                isProfileImageLoading: action.flag,
+            }
+        }
         default: {
             return state;
         }
@@ -119,8 +137,29 @@ export const setStatusLoading = (isLoading) => ({
     isLoading,
 })
 
+export const setProfilePhoto = (photos) => ({
+    type: SET_PROFILE_PHOTO,
+    photos,
+})
+
+export const setLoadingProfileImage = (flag) => ({
+    type: SET_LOADING_PROFILE_IMAGE,
+    flag,
+})
+
 
 //thunk creators ----->
+
+export const changeProfileImageThunkCreator = (photoFile) => (dispatch) => {
+    dispatch(setLoadingProfileImage(true))
+    ProfileApi.changeProfilePhoto(photoFile).then((data) => {
+        if(data.resultCode === 0) {
+            dispatch(setProfilePhoto(data.data.photos));
+            dispatch(setUserAvatar(data.data.photos));
+        }
+        dispatch(setLoadingProfileImage(false))
+    })
+}
 
 export const getProfileStatusThunkCreator = (userId, dispatch) => () => {
     dispatch(setStatusLoading(true));
