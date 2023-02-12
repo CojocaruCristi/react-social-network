@@ -87,7 +87,7 @@ const SignIn = (props) => {
         }
 
         if(props.isAuth) {
-            return <Redirect to={"/profile"} />
+            return <Redirect to={"/profile/me"} />
         }
 
 
